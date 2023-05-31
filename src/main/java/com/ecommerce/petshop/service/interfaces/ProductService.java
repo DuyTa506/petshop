@@ -1,8 +1,13 @@
 package com.ecommerce.petshop.service.interfaces;
 
 import com.ecommerce.petshop.dto.request.ProductRequest;
+import com.ecommerce.petshop.dto.request.SearchProductDTO;
+import com.ecommerce.petshop.dto.response.ReviewDTO;
+import com.ecommerce.petshop.dto.response.SearchProductResponse;
 import com.ecommerce.petshop.entity.Product;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface ProductService {
     public Page<Product> getProduct(int pageSize, int pageNumber);
@@ -20,4 +25,12 @@ public interface ProductService {
     Product getProduct(int id);
 
     Product updateProduct(ProductRequest product,int id);
+
+    List<ReviewDTO> getproductsReviews(int productId);
+
+    public SearchProductResponse search(SearchProductDTO request);
+
+    public List<Product> getAll();
+
+
 }

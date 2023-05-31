@@ -1,11 +1,16 @@
 package com.ecommerce.petshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 @Entity
@@ -40,4 +45,12 @@ public class Product implements Serializable {
     @Column(name = "created_date")
     @CreationTimestamp
     private Date createdDate;
+
+
+    @OneToMany(fetch = FetchType.EAGER,mappedBy ="product")
+    private List<ProductImage> listImg ;
+
+    @JsonIgnore
+    @OneToMany(mappedBy ="product",fetch =FetchType.LAZY)
+    List<CartDetail> cartDetails;
 }
