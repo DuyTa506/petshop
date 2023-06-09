@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryController {
     @Autowired
     CategoryRepository categoryRepository;
-    @GetMapping()
+    @GetMapping("/all")
     public ResponseEntity getCategories(){
         return ResponseEntity.ok(categoryRepository.findAll());
+    }
+    @GetMapping()
+    public ResponseEntity getActiveCategories(){
+        return ResponseEntity.ok(categoryRepository.findByDeletedIsFalse());
     }
 }

@@ -1,6 +1,7 @@
 package com.ecommerce.petshop.service.interfaces;
 
 import com.ecommerce.petshop.dto.request.ProductRequest;
+import com.ecommerce.petshop.dto.request.RatingRequest;
 import com.ecommerce.petshop.dto.request.SearchProductDTO;
 import com.ecommerce.petshop.dto.response.ReviewDTO;
 import com.ecommerce.petshop.dto.response.SearchProductResponse;
@@ -24,13 +25,15 @@ public interface ProductService {
 
     Product getProduct(int id);
 
-    Product updateProduct(ProductRequest product,int id);
+    Product updateProduct(ProductRequest product);
 
     List<ReviewDTO> getproductsReviews(int productId);
 
     public SearchProductResponse search(SearchProductDTO request);
 
     public List<Product> getAll();
+
+    public void addRating(RatingRequest review);
 
 
 }

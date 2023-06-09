@@ -8,6 +8,7 @@ import lombok.Data;
 import javax.persistence.*;
 @Data
 public class ProductRequest {
+    private Integer id;
 
     private String name;
 
@@ -16,8 +17,6 @@ public class ProductRequest {
     private double price;
 
     private int stock;
-
-    private String thumbnailUrl;
 
     private int categoryId;
 

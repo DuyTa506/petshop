@@ -1,14 +1,13 @@
 package com.ecommerce.petshop.service.implementation;
 
 import com.ecommerce.petshop.dto.request.ProductRequest;
+import com.ecommerce.petshop.dto.request.RatingRequest;
 import com.ecommerce.petshop.dto.request.SearchProductDTO;
 import com.ecommerce.petshop.dto.response.ReviewDTO;
 import com.ecommerce.petshop.dto.response.SearchProductResponse;
-import com.ecommerce.petshop.entity.Brand;
-import com.ecommerce.petshop.entity.Category;
-import com.ecommerce.petshop.entity.Product;
-import com.ecommerce.petshop.entity.Review;
+import com.ecommerce.petshop.entity.*;
 import com.ecommerce.petshop.repository.ProductRepository;
+import com.ecommerce.petshop.repository.RateRepository;
 import com.ecommerce.petshop.service.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +26,8 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository repository;
-
+@Autowired
+private RateRepository rateRepository;
     @Override
     public Page<Product> getProduct(int pageSize, int pageNumber) {
         return repository.findAll(PageRequest.of(pageNumber, pageSize));
@@ -60,7 +62,6 @@ public class ProductServiceImpl implements ProductService {
 
         p.setBrand(cb);
         p.setStock(product.getStock());
-        p.setThumbnailUrl(product.getThumbnailUrl());
         Product newProduct = repository.save(p);
         return newProduct;
     }
@@ -83,8 +84,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(ProductRequest product, int id) {
-        Product p = repository.findById(id);
+    public Product updateProduct(ProductRequest product) {
+        Product p = repository.findById(product.getId());
         p.setName(product.getName());
         p.setDescription(product.getDescription());
         p.setPrice(product.getPrice());
@@ -96,7 +97,6 @@ public class ProductServiceImpl implements ProductService {
 
         p.setBrand(cb);
         p.setStock(product.getStock());
-        p.setThumbnailUrl(product.getThumbnailUrl());
         Product newProduct = repository.save(p);
         return newProduct;
     }
@@ -149,6 +149,20 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAll() {
 
         return repository.findAll();
+    }
+
+    @Override
+    public void addRating(RatingRequest review) {
+        Review r = new Review();
+        r.setComment(review.getComment());
+        Customer c = new Customer();
+        c.setId((long) review.getCustomerId());
+        Product p = new Product();
+        p.setId(review.getProduct());
+        r.setProduct(p);
+        r.setCustomer(c);
+        r.setRate(review.getRate());
+        rateRepository.save(r);
     }
 
 }

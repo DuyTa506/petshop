@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class ProductImage {
     @Id
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "url")
     private String url;
@@ -21,4 +21,7 @@ public class ProductImage {
     @JsonIgnore
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
+
+    @Column(name="description", columnDefinition = "text")
+    private String description;
 }

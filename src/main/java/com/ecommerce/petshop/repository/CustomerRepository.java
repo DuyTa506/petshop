@@ -14,4 +14,7 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> {
     @Query("SELECT c FROM Customer c WHERE c.userName=:name")
     public Customer findByUserName(@Param("name") String name);
     public Customer findById(int id);
+
+    @Query("select count(c) from Customer c where c.isDeleted = false ")
+    public Integer getNumberCustomer();
 }
