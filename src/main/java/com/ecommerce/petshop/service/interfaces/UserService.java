@@ -1,6 +1,8 @@
 package com.ecommerce.petshop.service.interfaces;
 
+import com.ecommerce.petshop.dto.request.ChangePwdRequestDTO;
 import com.ecommerce.petshop.dto.request.CustomerRequest;
+import com.ecommerce.petshop.dto.request.EditProfileRequest;
 import com.ecommerce.petshop.dto.response.UserDTO;
 import com.ecommerce.petshop.entity.Customer;
 
@@ -14,5 +16,9 @@ public interface UserService {
     public UserDTO getUserById(long id);
 
     public void updateUser(CustomerRequest request);
+
+    public boolean editPassword(ChangePwdRequestDTO request);
+
+    public void editProfile(EditProfileRequest request);
 
 }

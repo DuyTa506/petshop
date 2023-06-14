@@ -1,6 +1,8 @@
 package com.ecommerce.petshop.service.implementation;
 
+import com.ecommerce.petshop.dto.request.ChangePwdRequestDTO;
 import com.ecommerce.petshop.dto.request.CustomerRequest;
+import com.ecommerce.petshop.dto.request.EditProfileRequest;
 import com.ecommerce.petshop.dto.response.UserDTO;
 import com.ecommerce.petshop.entity.Customer;
 import com.ecommerce.petshop.entity.Gender;
@@ -9,6 +11,7 @@ import com.ecommerce.petshop.repository.CustomerRepository;
 import com.ecommerce.petshop.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -112,5 +115,26 @@ public class UserServiceImpl implements UserService {
         customer.setGender(Gender.valueOf(request.getGender()));
         customerRepository.save(customer);
         return;
+    }
+
+    @Override
+    public boolean editPassword(ChangePwdRequestDTO request) {
+        Customer user = customerRepository.findById(request.getId()).get();
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!encoder.matches(request.getOldPassword(), user.getPassword())) {
+            return false;
+        }
+        customerRepository.updatePassword(request.getId(), encoder.encode(request.getNewPassword()));
+        return true;
+    }
+
+    @Override
+    public void editProfile(EditProfileRequest request) {
+        Customer user = customerRepository.findById(request.getId()).get();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+        user.setGender(Gender.valueOf(request.getGender()));
+        customerRepository.save(user);
     }
 }

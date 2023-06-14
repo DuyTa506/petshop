@@ -1,9 +1,7 @@
 package com.ecommerce.petshop.controller;
 
 import com.ecommerce.petshop.config.JwtTokenProvider;
-import com.ecommerce.petshop.dto.request.CustomUserDetail;
-import com.ecommerce.petshop.dto.request.CustomerRequest;
-import com.ecommerce.petshop.dto.request.LoginRequest;
+import com.ecommerce.petshop.dto.request.*;
 import com.ecommerce.petshop.dto.response.LoginResponse;
 import com.ecommerce.petshop.dto.response.UserDTO;
 import com.ecommerce.petshop.entity.Customer;
@@ -100,5 +98,33 @@ public class CustomerController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
+    }
+    @PostMapping("/edit-password")
+    public ResponseEntity<?> updatePassword(@RequestBody ChangePwdRequestDTO request){
+        try{
+
+            if (service.getUserById(request.getId()) == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            boolean result = service.editPassword(request);
+            if (result == false){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } else {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/edit-profile")
+    public ResponseEntity editProfile(@RequestBody EditProfileRequest request){
+        try {
+            service.editProfile(request);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

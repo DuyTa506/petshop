@@ -132,4 +132,15 @@ public class OrderServiceImpl implements OrderService {
 
         return stat;
     }
+
+    @Override
+    public List<Order> getOrderOfCustomer(Long id) {
+        List<Order> order = new ArrayList<Order>();
+        if( orderRepository.getOrderByCustomer(id) != null ){
+            order = orderRepository.getOrderByCustomer(id);
+        }
+        return order;
+    }
+
+
 }

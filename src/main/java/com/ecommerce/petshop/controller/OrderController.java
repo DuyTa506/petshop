@@ -25,4 +25,8 @@ public class OrderController {
     public ResponseEntity getNumber() {
         return ResponseEntity.ok(orderService.getStat());
     }
+    @GetMapping("/get-by-user")
+    public ResponseEntity getOrders(@RequestParam Long id){
+        return ResponseEntity.ok(orderService.getOrderOfCustomer(id));
+    }
 }
